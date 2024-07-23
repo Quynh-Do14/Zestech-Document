@@ -1,9 +1,12 @@
 import React from 'react'
+import MainLayout from '../../infratructure/components/layouts/layout'
 
 const Detail = () => {
-  return (
-    <div> Detail</div>
-  )
+    return (
+        <MainLayout>
+            <div> Detail</div>
+        </MainLayout>
+    )
 }
 
 export default Detail
