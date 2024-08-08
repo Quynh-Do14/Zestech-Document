@@ -4,21 +4,21 @@ import HomePage from '../../pages/home-page'
 import ScreenPage from '../../pages/screens'
 
 export const privatesRoutes = [
-    
+
   {
     path: "/Detail",
     component: Detail,
     private: false,
-},
-{
+  },
+  {
     path: "",
     component: HomePage,
     private: false,
-},
-{
-  path: "/Screen",
-  component: ScreenPage,
-  private: false,
-},
+  },
+  {
+    path: "/Screen",
+    component: ScreenPage,
+    private: false,
+  },
 
 ]

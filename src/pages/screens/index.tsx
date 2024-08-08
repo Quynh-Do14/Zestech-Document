@@ -1,12 +1,17 @@
-import React, { useEffect, useState } from 'react'
-import type { TableColumnsType, TreeDataNode, TreeProps } from 'antd';
+import React, { useEffect, useRef, useState } from 'react'
+import type { TreeDataNode, TreeProps } from 'antd';
 
-import { Flex, Input, Layout, Popconfirm, Space, Upload, Avatar, Button, List, Skeleton, Radio, Image, Badge, Table, Dropdown, Row, Col, Tree, } from "antd"
+import { Flex, Input, Layout, Popconfirm, Space, Upload, Button, Row, Col, Tree, Image, } from "antd"
 import { HappyProvider } from '@ant-design/happy-work-theme';
 import { SearchOutlined, UploadOutlined, DownOutlined } from '@ant-design/icons';
-import Column from 'antd/es/table/Column';
 import MainLayout from '../../infratructure/components/layouts/layout';
-const { Header, Footer, Sider, Content } = Layout;
+import Constants from '../../core/common/Constants';
+import "../../asset/styles/components/screen.css"
+import Slider from 'react-slick';
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+
+const { Footer, Content } = Layout;
 
 
 const contentStyle: React.CSSProperties = {
@@ -107,6 +112,25 @@ const treeData: TreeDataNode[] = [
     },
 ];
 const ScreenPage = () => {
+
+    const [selectedImage, setSelectedImage] = useState(Constants.Car.List[0].img);
+    const sliderRef = useRef<any>(null);
+    const handleImageClick = (it: any) => {
+        setSelectedImage(it.img);
+    };
+
+    const settings = {
+        dots: true,
+        infinite: true,
+        speed: 500,
+        slidesToShow: 3,
+        slidesToScroll: 1,
+        centerMode: true,
+        centerPadding: '0px',
+        focusOnSelect: true,
+        afterChange: (current: number) => setSelectedImage(Constants.Car.List[current].img)
+    };
+
     const listInfoCarDVD: DataType[] = [];
     for (let i = 0; i < 10; ++i) {
         listInfoCarDVD.push({
@@ -128,45 +152,46 @@ const ScreenPage = () => {
 
     return (
         <MainLayout>
-            <Flex gap="middle" wrap justify='center'>
-                <Layout style={layoutStyle}>
+            <div className='screen-container'>
+                <Flex gap="middle" wrap justify='center'>
+                    <Layout style={layoutStyle}>
 
-                    <Content style={contentStyle}>
-                        <Flex justify="center" align="center" gap="middle">
-                            <Input style={inputStyle}
-                                size="large"
-                                variant="borderless"
-                                placeholder="Trương Ngọc Nghĩa"
-                                addonAfter={<SearchOutlined />} />
-                        </Flex>
-                        <Flex justify="center" align="center" gap="middle">
-                            <HappyProvider>
-                                <Button type="primary" danger >loading more</Button>
-                            </HappyProvider>
-                            <Space>
-                                Thêm ảnh
-                                <Upload>
-                                    <Button icon={<UploadOutlined />}>Click to Upload</Button>
-                                </Upload>
-                                <Popconfirm title="Are you sure delete this task?" okText="Yes" cancelText="No">
-                                    <HappyProvider>
-                                        <Button type="primary" >Confirm</Button>
-                                    </HappyProvider>
-                                </Popconfirm>
-                            </Space>
-                        </Flex>
-                        <Row>
-                            <Col span={8}>
-                                <Tree
-                                    showLine
-                                    switcherIcon={<DownOutlined />}
-                                    defaultExpandedKeys={['0-0-0']}
-                                    onSelect={onSelect}
-                                    treeData={treeData}
-                                />
-                            </Col>
-                            <Col span={16}>
-                                <h2>Hướng dẫn</h2>
+                        <Content style={contentStyle}>
+                            <Flex justify="center" align="center" gap="middle">
+                                <Input style={inputStyle}
+                                    size="large"
+                                    variant="borderless"
+                                    placeholder="Trương Ngọc Nghĩa"
+                                    addonAfter={<SearchOutlined />} />
+                            </Flex>
+                            <Flex justify="center" align="center" gap="middle">
+                                <HappyProvider>
+                                    <Button type="primary" danger >loading more</Button>
+                                </HappyProvider>
+                                <Space>
+                                    Thêm ảnh
+                                    <Upload>
+                                        <Button icon={<UploadOutlined />}>Click to Upload</Button>
+                                    </Upload>
+                                    <Popconfirm title="Are you sure delete this task?" okText="Yes" cancelText="No">
+                                        <HappyProvider>
+                                            <Button type="primary" >Confirm</Button>
+                                        </HappyProvider>
+                                    </Popconfirm>
+                                </Space>
+                            </Flex>
+                            <Row>
+                                <Col span={8}>
+                                    <Tree
+                                        showLine
+                                        switcherIcon={<DownOutlined />}
+                                        defaultExpandedKeys={['0-0-0']}
+                                        onSelect={onSelect}
+                                        treeData={treeData}
+                                    />
+                                </Col>
+                                <Col span={16}>
+                                    {/* <h2>Hướng dẫn</h2>
                                 <h4>Đấu cam zin</h4>
                                 <Row>
                                     <Col span={8}>
@@ -176,20 +201,44 @@ const ScreenPage = () => {
                                         />
                                     </Col>
                                     <Col span={16}>
-                                    sdfasfsdfsdasffd
+                                        sdfasfsdfsdasffd
                                     </Col>
                                 </Row>
                                 <h4>Đấu volang</h4>
                                 <Image
                                     width={200}
                                     src="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png"
-                                />
-                            </Col>
-                        </Row>
-                    </Content>
-                    <Footer style={footerStyle}>Footer</Footer>
-                </Layout>
-            </Flex>
+                                /> */}
+                                    <div className="gallery">
+                                        <div className="main-image bottom">
+                                            <Image src={selectedImage} alt="Selected" />
+                                        </div>
+                                        <div className="slider-controls">
+                                            <button className="prev" onClick={() => sliderRef.current.slickPrev()}>❮</button>
+                                            <button className="next" onClick={() => sliderRef.current.slickNext()}>❯</button>
+                                        </div>
+                                        <div className="slider bottom">
+                                            <Slider ref={sliderRef} {...settings}>
+                                                {
+                                                    Constants.Car.List.map((it, index) => {
+                                                        return (
+                                                            <div className="border-img" onClick={() => handleImageClick(it)}>
+                                                                <Image src={it.img} alt={`Slide ${index + 1}`} preview={false} />
+                                                            </div>
+                                                        )
+                                                    })
+                                                }
+                                            </Slider>
+                                        </div>
+                                    </div>
+                                </Col>
+                            </Row>
+                        </Content>
+                        <Footer style={footerStyle}>Footer</Footer>
+                    </Layout>
+                </Flex>
+            </div>
+
         </MainLayout>
     )
 }
